@@ -1,6 +1,6 @@
-#ifndef _FILE_PARSÅ_HEADER
+ï»¿#ifndef _FILE_PARSÃ…_HEADER
 
-#define _FILE_PARSÅ_HEADER
+#define _FILE_PARSÃ…_HEADER
 
 #include <iostream>
 #include <fstream>
@@ -85,13 +85,11 @@ void FileParse<ElementType, BUFF_SIZE>::parseReadFile(StaticArray<ElementType, B
 
 	if (remainingElements > BUFF_SIZE)
 	{
-		result.resize(BUFF_SIZE);
 		m_file.read((char*)result.getArr(), sizeof(ElementType)*BUFF_SIZE);
 		result.setSize(BUFF_SIZE);
 	}
 	else
 	{
-		result.resize(remainingElements);
 		m_file.read((char*)result.getArr(), sizeof(ElementType)*remainingElements);
 		result.setSize(remainingElements);
 	}
@@ -110,4 +108,4 @@ void FileParse<ElementType, BUFF_SIZE>::parseWriteFile(StaticArray<ElementType, 
 	m_file.write((char*)input.getArr(), sizeof(ElementType)*input.getSize());
 }
 
-#endif // !_FILE_PARSÅ_HEADER
+#endif // !_FILE_PARSÃ…_HEADER

@@ -12,7 +12,6 @@ class DynArray
 	TYPE *m_arr;
 	int m_size;
 	int m_capacity;
-
 public:
 	friend ostream & operator<<(ostream &out, const DynArray & obj)
 	{
@@ -40,7 +39,7 @@ public:
 	DynArray(const char * newArr)
 	{
 		m_size = strlen(newArr);
-		m_capacity = size + 1;
+		m_capacity = m_size + 1;
 		m_arr = new TYPE[m_capacity];
 		for (int i = 0; i < m_size; ++i)
 		{
@@ -75,15 +74,22 @@ public:
 
 	const int getSize() const { return m_size; }
 	int getSize()  { return m_size; }
-
+	
+	const int getCapacity() const { return m_capacity; }
 	int getCapacity() { return m_capacity; }
+
+	void setSize(const int newSize) { m_size = newSize;  }
+	void setCapacity(const int newCap) { m_capacity = newCap;}
+
 	const TYPE * getArr() const	{ return m_arr; }
+	TYPE * getArr() { return m_arr; }
 
 	void resize(int newCapacity);
 
 	void insert(const TYPE & newElement);		/// Add element at the end
 	bool remove();
 	void removeAtIndex(int index);
+
 	TYPE & operator[](int index)
 	{
 		assert(index >= 0 && index < m_size);

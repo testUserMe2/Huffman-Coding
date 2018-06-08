@@ -4,143 +4,61 @@
 
 #include <iostream>
 #include <fstream>
-#include <cassert>
 
 using namespace std;
-
-
 
 template<typename TYPE, const int MAX_CAPACITY>
 class StaticArray
 {
-	TYPE *m_arr;
-	int m_size;
-	int m_capacity;
+	DynArray<TYPE> m_arr;
 public:
 
-	friend ostream & operator<<(ostream &out, const StaticArray & obj)
-	{
-		int size = obj.m_size;
-		for (int i = 0; i < size; ++i)
-		{
-			out << obj.m_arr[i] << " ";
-		}
-		return out;
-	}
+	StaticArray() {	m_arr.resize(MAX_CAPACITY);	}
 
-	StaticArray() : m_arr(nullptr), m_size(0), m_capacity(0){}
-
-	StaticArray(const StaticArray & right) { copy(right); }
+	StaticArray(const StaticArray & right) { m_arr.copy(right.m_arr); }
 	StaticArray & operator=(const StaticArray & right)
 	{
 		if (this != &right)
 		{
-			cleanArray();
-			copy(right);
+			m_arr = right.m_arr;
 		}
 		return *this;
 	}
 
-	~StaticArray(){ delete[] m_arr; }
+	~StaticArray(){}
 
-
-	void copy(const StaticArray & right);
-
-	void cleanArray()
-	{
-		delete[] m_arr;
-		m_arr = NULL;
-		m_size = 0;
-		m_capacity = 0;
-	}
-
-	const int getSize() const { return m_size; }
-	int getSize()  { return m_size; }
+	const int getSize() const { return m_arr.getSize(); }
+	int getSize()  { return m_arr.getSize(); }
 
 	int getCapacity() { return m_capacity; }
-	const TYPE * getArr() const	{ return m_arr; }
-	TYPE * getArr() { return m_arr; }
+	const TYPE * getArr() const	{ return m_arr.getArr(); }
+	TYPE * getArr() { return m_arr.getArr(); }
 
-	void setSize(const int newSize) { m_size = newSize; }
-
-	TYPE & operator[](int index)
-	{
-		assert(index >= 0 && index < m_size);
-
-		return m_arr[index];
-	}
-
-	const TYPE  & operator[] (int index) const		/// for const objects, can only be used for access
-	{
-		assert(index >= 0 && index < m_size);
-
-		return m_arr[index];
-	}
+	void setSize(const int newSize) { m_arr.setSize(newSize); }
 
 	bool insert(const TYPE & newElement);
-	void remove();
-	bool resize(int newCapacity);
+	void remove() { m_arr.remove(); }
+	void cleanArray() { m_arr.cleanArray(); }
 
+	TYPE & operator[](int index) { return m_arr[index]; }
 
+	const TYPE  & operator[] (int index) const	{ return m_arr[index]; }	/// for const objects, can only be used for access
 
 };
 
-template <typename TYPE, const int MAX_CAPACITY>
-inline void StaticArray<TYPE, MAX_CAPACITY>::copy(const StaticArray & right)
-{
-	m_arr = new TYPE[right.m_capacity];
-	m_capacity = right.m_capacity;
-	m_size = right.m_size;
-	for (int i = 0; i < m_size; ++i)
-		m_arr[i] = right.m_arr[i];
-}
 
 
 /// Inserts element in the end of the array
 template <typename TYPE, const int MAX_CAPACITY>
 inline bool StaticArray<TYPE, MAX_CAPACITY>::insert(const TYPE & newElement)
 {
-	if (m_capacity == 0)
-		resize(5);
-	if (m_capacity == m_size)
-	{
-		if (resize(m_capacity * 2) == false)
-			return false;
-	}
-	m_arr[m_size] = newElement;
-	++m_size;
-	return true;
-}
-
-
-template <typename TYPE, const int MAX_CAPACITY>
-inline void StaticArray<TYPE, MAX_CAPACITY>::remove()
-{
-	if (m_size == 0 || m_capacity == 0)
-		return;
-	if (m_capacity / 3 >= m_size)
-		resize(m_capacity / 2);
-	--m_size;
-}
-
-
-template <typename TYPE, const int MAX_CAPACITY>
-inline bool StaticArray<TYPE, MAX_CAPACITY>::resize(int newCapacity)
-{
-	if (newCapacity > MAX_CAPACITY)
+	if (m_arr.getSize() >= MAX_CAPACITY){
 		return false;
-	TYPE * temp = new TYPE[newCapacity];
+	}
 
-	for (int i = 0; i < m_size; ++i)
-		temp[i] = m_arr[i];
-
-	delete[]m_arr;
-
-	m_arr = temp;
-	m_capacity = newCapacity;
+	m_arr.insert(newElement);
 	return true;
 }
-
 
 
 #endif // !_STATIC_ARRAY_HEADER

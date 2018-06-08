@@ -9,7 +9,6 @@
 #include "Heap.h"
 #include "FileParse.h"
 
-
 using namespace std;
 
 
@@ -35,8 +34,8 @@ using namespace std;
 bool isInsideContainer(bool *isItInFileArr,
 	const unsigned short & wordForEncode);
 
-void setContainerWithWords(StaticArray<short, 2048> & readArr, int * wordAmountInFile,
-	DynArray<HuffmanBinaryTree> & container, int & wordsInFile);
+void setContainerWithWords(StaticArray<unsigned short, 2048> & readArr,
+	int * countEqualWords, DynArray<HuffmanBinaryTree> & container, int & wordsInFile);
 
 void findWordsInFile(const char * filePath, int countEqualWords[], DynArray<HuffmanBinaryTree> & container, int & wordsInFile);
 
@@ -94,13 +93,14 @@ void testOperatorEqualInHuffman(){
 }
 
 
-void simpleTest1(String & inputFileNme, String & outPutFileName){
+void simpleTest1(String & inputFileNme, String & outPutFileName)
+{
 
 	inputFileNme = "Test1.txt";
 	outPutFileName = "Result.txt";
 
 	StaticArray<short, 2048> test;
-	short arr[9] = { 1, 2, 2, 4, 1, 20, 30, 3, 2 };
+	short arr[10] = { 1, 2, 2, 4, 1, 20, 30, 3, 2, 10 };
 	int arrSize = 9;
 
 	for (int i = 0; i < arrSize; ++i)
@@ -115,7 +115,8 @@ void simpleTest1(String & inputFileNme, String & outPutFileName){
 }
 
 
-void printCodes(const DynArray<Word> & codes){
+void printCodes(const DynArray<Word> & codes)
+{
 
 	int size = codes.getSize();
 
@@ -129,7 +130,8 @@ void printCodes(const DynArray<Word> & codes){
 }
 
 
-void printAllWordsInThree(Heap<HuffmanBinaryTree> & allWordsInMinHeap){
+void printAllWordsInThree(Heap<HuffmanBinaryTree> & allWordsInMinHeap)
+{
 
 	int sizeAllWords = allWordsInMinHeap.getSize();
 	for (int i = 0; i < sizeAllWords; ++i)
@@ -166,10 +168,10 @@ int main(){
 
 		simpleTest1(inputFileNme, outPutFileName);
 
-		const String inputFile = inputFileNme;
+		//const String inputFile = inputFileNme;
 		
 
-		ifstream readFile(inputFile.getCharArr(), ios::in | ios::binary);
+		ifstream readFile("Test1.txt", ios::in | ios::binary);
 
 		/********************************************//**
 		 *  At first I must save the words in an array because I can't put them into a heap
@@ -191,7 +193,6 @@ int main(){
 
 		cout << "\n--------------------------All_WORDS_VARIATIONS------------------------------\n";
 
-
 		setWordsVariations(allWords, countEqualWords, amountOfWordsInFile);
 
 		// Here I use this heap as min heap
@@ -210,6 +211,8 @@ int main(){
 		cout << "\n-----------------------CODES----------------------------------\n";
 
 		DynArray<Word> codes;
+		
+		//codes.i
 	
 		result.setAllCodes(codes);
 

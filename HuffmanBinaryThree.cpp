@@ -104,28 +104,23 @@ HuffmanBinaryTree HuffmanBinaryTree::mergeHufmanTrees(HuffmanBinaryTree & leftTr
 		return leftTree;
 
 	HuffmanBinaryTree result;
-	float rightTreeVariation = 0;
-	float leftTreeVariation = 0;
-	float fatherNodeVariation = 0;
+	float rightTreeVariation = rightTree.root->m_data.getWordInFileVariation();
+	float leftTreeVariation = leftTree.root->m_data.getWordInFileVariation();
+	float fatherNodeVariation = rightTreeVariation + leftTreeVariation;
 	if (leftTree.root != nullptr && rightTree.root == nullptr)
 	{
-		leftTreeVariation = leftTree.root->m_data.getWordInFileVariation();
 		Word newWord(-1, leftTreeVariation);
 		result.root = new HuffmanBinaryTree::Node(newWord);
 		result.root->m_leftChild = leftTree.root;
 	}
 	else if (leftTree.root == nullptr && rightTree.root != nullptr)
 	{
-		rightTreeVariation = rightTree.root->m_data.getWordInFileVariation();
 		Word newWord(-1, rightTreeVariation);
 		result.root = new HuffmanBinaryTree::Node(newWord);
 		result.root->m_rightChild = rightTree.root;
 	}
 	else
 	{
-		rightTreeVariation = rightTree.root->m_data.getWordInFileVariation();
-		leftTreeVariation = leftTree.root->m_data.getWordInFileVariation();
-		fatherNodeVariation = rightTreeVariation + leftTreeVariation;
 		Word newWord(-1, fatherNodeVariation);
 		result.root = new HuffmanBinaryTree::Node(newWord);
 		result.root->m_rightChild = rightTree.root;

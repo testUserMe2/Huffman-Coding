@@ -37,7 +37,6 @@ public:
 		HuffmanBinaryTree  & rightTree);
 
 
-
 	HuffmanBinaryTree() : root(nullptr) {}
 
 	HuffmanBinaryTree(const Word & newRootData) { root = new Node(newRootData); }
@@ -80,6 +79,7 @@ public:
 	bool findALeaf(DynArray<bool> & path, Word & nowWord);
 
 private:
+
 	void print(ostream &out, const Node * current) const;
 
 	void clear(Node *current)
@@ -92,7 +92,7 @@ private:
 		}
 	}
 
-	void setCodes(Node *& current, DynArray<bool> code, DynArray<Word> & codeForWords)
+	void setCodes(Node *& current, DynArray<bool>  code, DynArray<Word> & codeForWords)
 	{
 
 		if (current != nullptr)

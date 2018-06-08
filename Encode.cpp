@@ -59,9 +59,11 @@ void findWordsInFile(const char * filePath, int countEqualWords[], DynArray<Huff
 	int RemainBytes = readFile.getFileBytesAmount();
 	int RemainingShorts = RemainBytes / 2;
 	StaticArray<unsigned short, 2048> readArr;
+
 	while (RemainingShorts != 0)
 	{
 		readFile.parseReadFile(readArr);
+
 		setContainerWithWords(readArr, countEqualWords, container, wordsInFile);
 		RemainingShorts -= readArr.getSize();
 		readArr.cleanArray();
@@ -221,8 +223,3 @@ void writeAllWordsEncode(ofstream & fileResult, int numberAllWords, Heap<Huffman
 		fileResult.write((char *)&allWordsForEncode, sizeof(short)* allWordsForEncode.getSize());
 	}
 }
-
-
-
-
-
